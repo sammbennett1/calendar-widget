@@ -8,11 +8,14 @@
     :root{
       /* Forest / moss palette */
       --bg: #0F1A15;        /* deep forest green-black */
-      --panel: #0C1512;     /* darker moss panel */
-      --border: rgba(168,200,186,.14);
+      --panel: #0B1612;     /* darker moss panel */
+      --border: rgba(168,200,186,.16);
       --text: #E8F2EC;      /* soft mist white */
       --muted: #9FBFB0;     /* sage grey */
       --radius: 16px;
+
+      /* Tint strength (raise to 0.18 for more green, lower to 0.10 for subtle) */
+      --tint: 0.14;
     }
 
     html, body {
@@ -42,7 +45,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 10px 12px;
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0));
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,0));
       border-bottom: 1px solid var(--border);
     }
 
@@ -55,31 +58,45 @@
 
     .hint{
       font-size: 12px;
-      color: rgba(230,239,234,.65);
+      color: rgba(232,242,236,.65);
       user-select: none;
     }
 
     .frame{
       position: relative;
       background: var(--panel);
+      overflow: hidden; /* keeps overlay clean */
     }
 
-    /* Responsive height, good for Notion */
+    /* The big “greener” change: a moss tint overlay */
+    .frame::after{
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+
+      /* Moss tint */
+      background: rgba(95, 143, 123, var(--tint));
+
+      /* Multiply makes it feel like stained glass over the calendar */
+      mix-blend-mode: multiply;
+    }
+
     .frame iframe{
       width: 100%;
-      height: 820px; /* Month view needs height; adjust in Notion by resizing too */
+      height: 820px; /* Month view needs height */
       border: 0;
       display: block;
 
       /*
-        “Dark mode” trick:
-        Not perfect, but usually looks much better than Google’s forced white embed.
+        Dark mode trick:
+        invert makes Google white UI dark, hue-rotate steers it away from harsh blues.
+        If colors look weird, we can tweak these 5 values.
       */
-      filter: invert(1) hue-rotate(165deg) saturate(1.15) contrast(1.05) brightness(0.95);
+      filter: invert(1) hue-rotate(165deg) saturate(1.10) contrast(1.04) brightness(0.96);
       background: transparent;
     }
 
-    /* On smaller screens, reduce height a bit */
     @media (max-width: 700px){
       .frame iframe{ height: 720px; }
       .hint{ display:none; }
@@ -90,7 +107,7 @@
   <div class="wrap">
     <div class="topbar">
       <div class="title">🌿Living Schedule</div>
-      <div class="hint">Month view, dark-filtered for Notion</div>
+      <div class="hint">Month view, moss-tinted for Notion</div>
     </div>
 
     <div class="frame">
