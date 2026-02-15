@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Samm Calendar Widget</title>
+  <style>
+    :root{
+      /* Dark cottagecore-ish palette */
+      --bg: #121916;        /* deep forest-black green */
+      --panel: #0f1412;     /* slightly darker panel */
+      --border: rgba(230,239,234,.12);
+      --text: #E6EFEA;      /* soft misty white */
+      --muted: #9FB8AC;     /* muted sage */
+      --radius: 16px;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: transparent;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+    }
+
+    .wrap{
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(0,0,0,.35);
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .topbar{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0));
+      border-bottom: 1px solid var(--border);
+    }
+
+    .title{
+      font-size: 13px;
+      letter-spacing: .2px;
+      color: var(--muted);
+      user-select: none;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: rgba(230,239,234,.65);
+      user-select: none;
+    }
+
+    .frame{
+      position: relative;
+      background: var(--panel);
+    }
+
+    /* Responsive height, good for Notion */
+    .frame iframe{
+      width: 100%;
+      height: 820px; /* Month view needs height; adjust in Notion by resizing too */
+      border: 0;
+      display: block;
+
+      /*
+        “Dark mode” trick:
+        This inverts the iframe and rotates hues back to a more natural palette.
+        Not perfect, but usually looks much better than Google’s forced white embed.
+      */
+      filter: invert(1) hue-rotate(180deg) saturate(1.05) contrast(1.02) brightness(0.98);
+      background: transparent;
+    }
+
+    /* On smaller screens, reduce height a bit */
+    @media (max-width: 700px){
+      .frame iframe{ height: 720px; }
+      .hint{ display:none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="title">Calendar</div>
+      <div class="hint">Month view, dark-filtered for Notion</div>
+    </div>
+
+    <div class="frame">
+      <iframe
+        src="https://calendar.google.com/calendar/embed?src=samm.bennett1124%40gmail.com&ctz=America%2FNew_York&mode=MONTH&showTitle=0&showNav=0&showPrint=0&showCalendars=0&showTabs=0"
+        scrolling="no"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        aria-label="Google Calendar"
+      ></iframe>
+    </div>
+  </div>
+</body>
+</html>
